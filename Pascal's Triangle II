@@ -1,0 +1,13 @@
+public class Solution {
+    public List<Integer> getRow(int rowIndex) {
+        List<Integer> pascalRow = new ArrayList<Integer>();
+        for (int i = 0; i<= rowIndex; i++) {
+            pascalRow.add(0, 1);
+            for (int ele = 1; ele < i; ele ++) {
+                  int newVal = pascalRow.get(ele + 1) + pascalRow.get(ele);
+                  pascalRow.set(ele, newVal);
+            }
+        }
+        return pascalRow;
+    }
+}
