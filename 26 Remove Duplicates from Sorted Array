@@ -1,0 +1,13 @@
+public class Solution {
+    public int removeDuplicates(int[] nums) {
+        int size = nums.length;
+        int pivot = 1;
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] > nums[i-1]) {
+                nums[pivot] = nums[i];
+                pivot += 1;
+            }
+        }
+        return pivot;
+    }
+}
