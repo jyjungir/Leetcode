@@ -1,0 +1,23 @@
+public class Solution {
+    public String[] findWords(String[] words) {
+        String[] rows = {"qwertyuiop", "asdfghjkl", "zxcvbnm"};
+        ArrayList<String> res = new ArrayList<String> (words.length);
+        for (String row : rows) {
+            for (String word : words) {
+                char[] temp = word.toLowerCase().toCharArray();
+                boolean flag = false;
+                for (char c : temp) {
+                    if (row.indexOf(c) == -1) {
+                        flag = true;
+                        break;
+                    }
+                }
+                if (flag == false) {
+                    System.out.println(word);
+                    res.add(word);
+                }
+            }
+        }
+        return res.toArray(new String[res.size()]);
+    }
+}
