@@ -1,0 +1,28 @@
+public class Solution {
+    public String[] findRestaurant(String[] list1, String[] list2) {
+        HashMap<String, Integer> map = new HashMap<String, Integer> ();
+        List<String> common = new ArrayList<String> ();
+        for (int i = 0; i < list1.length; i ++) {
+            map.put(list1[i], i);
+        }
+        int sum = 0;
+        int res = Integer.MAX_VALUE;
+        for (int i = 0; i < list2.length; i ++) {
+            if (map.containsKey(list2[i])) {
+                sum = i + map.get(list2[i]);
+                if (sum < res) {
+                    common.clear();
+                }
+                if (sum <= res) {
+                    res = sum;
+                    common.add(list2[i]);
+                }
+            }
+        }
+        String[] ret = new String[common.size()];
+        for (int i = 0; i < common.size(); i++) {
+            ret[i] = common.get(i);
+        }
+        return ret;
+    }
+}
