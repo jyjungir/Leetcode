@@ -1,0 +1,36 @@
+public class Solution {
+    public int strStr(String haystack, String needle) {
+        if (needle.length() == 0) {
+            return 0;
+        }
+        if (haystack.length() == 0) {
+            return -1;
+        }
+        if (needle.length() > haystack.length()) {
+            return -1;
+        }
+        int end = 0;
+        int start = -1;
+        int n_end = 0;
+        while (end < haystack.length() && n_end < needle.length()) {
+            if (needle.charAt(n_end) == haystack.charAt(end)) { // find the first char
+                if (n_end == 0) {
+                    start = end;
+                }
+                n_end += 1;
+            }
+            else {
+                if (start != -1) {
+                    end = start;
+                }
+                start = -1;
+                n_end = 0;
+            }
+            end ++;
+        }
+        if (n_end == needle.length()) {
+            return start;
+        }
+        return -1;
+    }
+}
