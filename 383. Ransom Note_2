@@ -1,0 +1,19 @@
+public class Solution {
+    public boolean canConstruct(String ransomNote, String magazine) {
+        char[] note = ransomNote.toCharArray();
+        HashMap<Character, Integer> map = new HashMap<Character, Integer> ();
+        
+        for (char c : note) {
+            int start = 0;
+            if(map.containsKey(c)) {
+                start = map.get(c) + 1;
+            }
+            int idx = magazine.indexOf(c, start);
+            if (idx == -1) {
+                return false;
+            }
+            map.put(c, idx);
+        }
+        return true;
+    }
+}
