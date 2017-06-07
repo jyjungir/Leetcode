@@ -1,0 +1,18 @@
+public class Solution {
+    public boolean canConstruct(String ransomNote, String magazine) {
+        char[] mag = magazine.toCharArray();
+        char[] note = ransomNote.toCharArray();
+        char[] map = new char[26];
+        for (char c : magazine.toCharArray();) {
+            map[c - 'a'] += 1;
+        }
+        
+        for (char c : note) {
+            if (map[c - 'a'] <= 0) {
+                return false;
+            }
+            map[c - 'a'] -= 1;
+        }
+        return true;
+    }
+}
