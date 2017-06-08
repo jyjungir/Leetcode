@@ -1,0 +1,22 @@
+public class Solution {
+    public boolean checkRecord(String s) {
+        int cntA = 0;
+        int cntL = 0;
+        for (char r : s.toCharArray()) {
+            if (r == 'A') {
+                cntA += 1;
+                cntL = 0;
+            }
+            else if (r == 'L') {
+                cntL += 1;
+            }
+            else {
+                cntL = 0;
+            }
+            if (cntA > 1 || cntL > 2) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
