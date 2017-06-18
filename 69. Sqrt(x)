@@ -1,0 +1,23 @@
+public class Solution {
+    public int mySqrt(int x) {
+        if (x > 0 && x < 4) {
+            return 1;
+        }
+        int half = x / 2;
+        int start = 1;
+        while (start <= half) {
+            long mid = (start + half) / 2;
+            long res = mid * mid;
+            if (res == x) {
+                return (int)mid;
+            }
+            else if (res < x) {
+                start = (int)mid + 1;
+            }
+            else {
+                half = (int)mid - 1;
+            }
+        }
+        return start - 1;
+    }
+}
