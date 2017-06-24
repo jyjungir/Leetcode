@@ -1,0 +1,27 @@
+public class Solution {
+    public int[] nextGreaterElement(int[] findNums, int[] nums) {
+        List<Integer> list = new ArrayList<Integer>();
+        for (int fn : findNums) {
+            for (int i = 0; i < nums.length; i++ ) {
+                if (nums[i] == fn) {
+                    boolean find = false;
+                    for (int j = i + 1; j < nums.length; j ++) {
+                        if (nums[j] > fn) {
+                            find = true;
+                            list.add(nums[j]);
+                            break;
+                        }
+                    }
+                    if (!find) {
+                        list.add(-1);
+                    }
+                }
+            }
+        }
+        int[] res = new int[list.size()];
+        for (int i = 0; i < list.size(); i ++) {
+            res[i] = list.get(i);
+        }
+        return res;
+    }
+}
