@@ -1,0 +1,56 @@
+/**
+ * Definition of TreeNode:
+ * public class TreeNode {
+ *     public int val;
+ *     public TreeNode left, right;
+ *     public TreeNode(int val) {
+ *         this.val = val;
+ *         this.left = this.right = null;
+ *     }
+ * }
+ */
+
+/**
+ * @author: Irene
+ * 
+ */
+public class Solution {
+    /*
+     * @param root: the root of binary tree
+     * @return: the root of the maximum average of subtree
+     */
+    public class Avg {
+        double sum;
+        double numberOfNode;
+        public Avg(double sumNew, double size) {
+            this.sum = sumNew;
+            this.numberOfNode = size;
+        }
+    }
+    double maxAvg = -Double.MAX_VALUE;
+    TreeNode subTree = null;
+
+    public TreeNode findSubtree2(TreeNode root) {
+        helper(root);
+        return subTree;
+    }
+    public Avg helper(TreeNode node) {
+        if (node == null) {
+            return new Avg(0, 0);
+        }
+        Avg avgLeft = helper(node.left);
+        Avg avgRight = helper(node.right);
+        
+        double sumTmp = (avgLeft.sum + avgRight.sum + node.val);
+        double nodes = (avgLeft.numberOfNode + avgRight.numberOfNode + 1);
+        double avg = sumTmp / nodes;
+        
+        Avg avgObj = new Avg(sumTmp, nodes);
+
+        if (avg > maxAvg) {
+            maxAvg = avg;
+            subTree = node;
+        }
+        return avgObj;
+    }
+}
