@@ -1,0 +1,69 @@
+/**
+ * Definition of TreeNode:
+ * public class TreeNode {
+ *     public int val;
+ *     public TreeNode left, right;
+ *     public TreeNode(int val) {
+ *         this.val = val;
+ *         this.left = this.right = null;
+ *     }
+ * }
+ */
+
+/**
+ * @author: Irene
+ */
+
+public class Solution {
+    /*
+     * @param root: The root of the binary tree.
+     * @param A: A TreeNode
+     * @param B: A TreeNode
+     * @return: Return the LCA of the two nodes.
+     */
+    public class Result {
+        boolean existA;
+        boolean existB;
+        TreeNode node;
+        public Result(boolean A, boolean B, TreeNode n){
+            this.existA = A;
+            this.existB = B;
+            this.node = n;
+        }
+    }
+    public TreeNode lowestCommonAncestor3(TreeNode root, TreeNode A, TreeNode B) {
+        Result r = helper(root, A, B);
+        if (r.existA && r.existB && r.node != null) {
+            return r.node;
+        }
+        return null;
+    }
+    public Result helper(TreeNode root, TreeNode A, TreeNode B) {
+        if (root == null) {
+            return new Result(false, false, null);
+        }
+        Result leftR = helper(root.left, A, B);
+        Result rightR = helper(root.right, A, B);
+        boolean haveA = false;
+        boolean haveB = false;
+        if (root == A || leftR.existA || rightR.existA) {
+            haveA = true;
+        }
+        if (root == B || leftR.existB || rightR.existB) {
+            haveB = true;
+        }
+        if (root == A || root == B) {
+            return new Result(haveA, haveB, root);
+        }
+        if (leftR.node != null && rightR.node != null) {
+            return new Result(haveA, haveB, root);
+        }
+        if (leftR.node != null) {
+            return new Result(haveA, haveB, leftR.node);
+        }
+        if (rightR.node != null) {
+            return new Result(haveA, haveB, rightR.node);
+        }
+        return new Result(haveA, haveB, null);
+    }
+}
