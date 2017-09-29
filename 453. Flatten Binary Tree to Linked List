@@ -1,0 +1,46 @@
+/**
+ * Definition of TreeNode:
+ * public class TreeNode {
+ *     public int val;
+ *     public TreeNode left, right;
+ *     public TreeNode(int val) {
+ *         this.val = val;
+ *         this.left = this.right = null;
+ *     }
+ * }
+ */
+/**
+ * @author: Irene
+ */
+
+public class Solution {
+    /*
+     * @param root: a TreeNode, the root of the binary tree
+     * @return: 
+     */
+    TreeNode lastNode = null;
+    
+    public void flatten(TreeNode root) {
+        helper(root);
+    }
+    
+    public TreeNode helper(TreeNode node) {
+        if (node == null) {
+            return null;
+        }
+        if (node.left == null && node.right == null) {
+            lastNode = node;
+            return node;
+        }
+        TreeNode tmp = node.right;
+        TreeNode left = helper(node.left);
+        if (left != null) {
+            node.right = left;
+            node.left = null;
+            lastNode.right = tmp;
+        }
+
+        TreeNode right = helper(tmp);
+        return node;
+    }
+}
