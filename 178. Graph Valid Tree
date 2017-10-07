@@ -1,0 +1,58 @@
+/**
+ * @author: Irene 
+ */
+public class Solution {
+    /*
+     * @param n: An integer
+     * @param edges: a list of undirected edges
+     * @return: true if it's a valid tree, or false
+     */
+    public boolean validTree(int n, int[][] edges) {
+        if (n == 0) {
+            return false;
+        }
+        System.out.println(edges.length);
+        if (edges == null || edges.length != n - 1) {
+            return false;
+        }
+        // 1. Construct graph from the edges
+        Map<Integer, List<Integer>> graph = constructGrapg(n, edges);
+        
+        // 2. check connected of each node
+        Set<Integer> set = new HashSet<Integer>();
+        Queue<Integer> q = new LinkedList<Integer> ();
+        q.offer(0);
+        set.add(0);
+        while (q.size() > 0) {
+            int node = q.poll();
+            List<Integer> neighbors = graph.get(node);
+            for (int neighbor : neighbors) {
+                if (!set.contains(neighbor)) {
+                    set.add(neighbor);
+                    q.offer(neighbor);
+                }
+            }
+        }
+        if (set.size() == n) {
+            return true;
+        }
+        return false;
+    }
+    
+    public Map<Integer, List<Integer>> constructGrapg(int n, int[][] edges) {
+        Map<Integer, List<Integer>> graph = new HashMap<Integer, List<Integer>> ();
+        for (int i = 0; i < n; i++) {
+            graph.put(i, new ArrayList<Integer> ());
+        }
+        
+        for (int i = 0; i < edges.length; i++) {
+            int node1 = edges[i][0];
+            int node2 = edges[i][1];
+            List<Integer> neighbors1 = graph.get(node1);
+            neighbors1.add(node2);
+            List<Integer> neighbors2 = graph.get(node2);
+            neighbors2.add(node1);
+        }
+        return graph;
+    }
+}
