@@ -1,0 +1,72 @@
+/**
+ * @author : Irene
+ */
+public class Solution {
+    public class Coord {
+        int x;
+        int y;
+        public Coord(int newX, int newY) {
+            this.x = newX;
+            this.y = newY;
+        }
+    }
+    /*
+     * @param grid: a boolean 2D matrix
+     * @return: an integer
+     */
+    public int numIslands(boolean[][] grid) {
+        int res = 0;
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
+                if (grid[i][j] == true) {
+                    System.out.println(i + ", " + j);
+                    checkIsland(i, j, grid);
+                    res = res + 1;
+                }
+            }
+        }
+        return res;
+    }
+    
+    public void checkIsland(int i, int j, boolean[][] grid) {
+        Queue<Coord> q = new LinkedList<Coord> ();
+        Coord co = new Coord(i, j);
+        q.offer(co);
+        grid[i][j] = false;
+        while (q.size() > 0) {
+            Coord c = q.poll();
+            // left
+            if (c.y  - 1 >= 0) {
+                if (grid[c.x][c.y - 1] == true) {
+                    Coord newC = new Coord(c.x,c.y - 1);
+                    q.offer(newC);
+                    grid[c.x][c.y - 1] = false;
+                }
+            }
+            // up
+            if (c.x - 1 >= 0) {
+                if (grid[c.x - 1][c.y] == true) {
+                    Coord newC = new Coord(c.x - 1, c.y);
+                    q.offer(newC);
+                    grid[c.x - 1][c.y] = false;
+                }
+            }
+            // right
+            if (c.y + 1 < grid[i].length) {
+                if (grid[c.x][c.y + 1] == true) {
+                    Coord newC = new Coord(c.x,c.y + 1);
+                    q.offer(newC);
+                    grid[c.x][c.y + 1] = false;
+                }
+            }
+            // down
+            if (c.x + 1 < grid.length) {
+                if (grid[c.x + 1][c.y] == true) {
+                    Coord newC = new Coord(c.x + 1, c.y);
+                    q.offer(newC);
+                    grid[c.x + 1][c.y] = false;
+                }
+            }
+        }
+    }
+}
