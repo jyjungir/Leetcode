@@ -1,0 +1,68 @@
+/**
+ * Definition for undirected graph.
+ * class UndirectedGraphNode {
+ *     int label;
+ *     ArrayList<UndirectedGraphNode> neighbors;
+ *     UndirectedGraphNode(int x) { label = x; neighbors = new ArrayList<UndirectedGraphNode>(); }
+ * };
+ */
+
+/**
+ * @author: Irene 
+ */
+public class Solution {
+    /*
+     * @param node: A undirected graph node
+     * @return: A undirected graph node
+     */
+    public List<UndirectedGraphNode> getNodes(UndirectedGraphNode node) {
+        List<UndirectedGraphNode> list = new ArrayList<UndirectedGraphNode> ();
+        Queue<UndirectedGraphNode> q = new LinkedList<UndirectedGraphNode> ();
+        Set<UndirectedGraphNode> set = new HashSet<UndirectedGraphNode> ();
+        q.offer(node);
+        set.add(node);
+        list.add(node);
+        while (q.size() > 0) {
+            UndirectedGraphNode n = q.poll();
+            if (n == null) {
+                System.out.println("null");
+            }
+            System.out.println(n.label);
+            for (UndirectedGraphNode neighbor : n.neighbors) {
+                 System.out.println(neighbor.label);
+                if (set.contains(neighbor)) {
+                    continue;
+                }
+                q.offer(neighbor);
+                set.add(neighbor);
+                list.add(neighbor);
+            }
+        }
+        return list;
+    }
+
+    public UndirectedGraphNode cloneGraph(UndirectedGraphNode node) {
+        if (node == null) {
+            return node;
+        }
+        // 1. get all nodes in original graph
+        List<UndirectedGraphNode> graph = getNodes(node);
+        System.out.println(graph.size());
+        // 2. create new nodes, and mapping from old ones to new ones
+        Map<UndirectedGraphNode, UndirectedGraphNode> mapping = new HashMap<UndirectedGraphNode, UndirectedGraphNode> ();
+        for (UndirectedGraphNode n : graph) {
+            UndirectedGraphNode newNode = new UndirectedGraphNode(n.label);
+            mapping.put(n, newNode);
+        }
+        // 3. copy edges
+        for (UndirectedGraphNode n : graph) {
+            UndirectedGraphNode newNode = mapping.get(n);
+            for (UndirectedGraphNode neighbor : n.neighbors) {
+                UndirectedGraphNode newNeighbor = mapping.get(neighbor);
+                newNode.neighbors.add(newNeighbor);
+            }
+        }
+        return mapping.get(node);
+    }
+    
+}
