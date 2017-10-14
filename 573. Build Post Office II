@@ -1,0 +1,113 @@
+/**
+ * @author: Irene
+ */
+public class Solution {
+    /*
+     * @param grid: a 2D grid
+     * @return: An integer
+     */
+    public class Point {
+        int x;
+        int y;
+        public Point(int i, int j) {
+            this.x = i;
+            this.y = j;
+        }
+    }
+    final int HOUSE = 1;
+    final int EMPTY = 0;
+    final int WALL = 2;
+    int m = 0;
+    int n = 0;
+    
+    int[][] distances;
+    int[][] visited;
+        
+    private List getHouses(int[][] grid) {
+        List<Point> houses = new ArrayList<Point> ();
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
+                if (grid[i][j] == HOUSE) {
+                    Point p = new Point(i, j);
+                    houses.add(p);
+                }
+            }
+        }
+        return houses;
+    }
+    
+    private boolean inBound(int[][] grid, Point p) {
+        if (p.x < 0 || p.y < 0) {
+            return false;
+        }
+        if (p.x >= grid.length || p.y >= grid[0].length) {
+            return false;
+        }
+        return true;
+    }
+    
+    private void caculateDistance(Point start, int[][] grid) {
+        int[] dirX = {-1, 1, 0, 0};
+        int[] dirY = {0, 0, -1, 1};
+        int step = 0;
+        boolean[][] set = new boolean[grid.length][grid[0].length];
+        Queue<Point> q = new LinkedList<Point> ();
+        q.offer(start);
+        set[start.x][start.y] = true;
+        while (q.size() > 0) {
+            int size = q.size();
+            step += 1;
+            for (int s = 0; s < size; s++) {
+                Point cur = q.poll();
+                for (int i = 0; i < dirX.length; i++) {
+                    Point p = new Point(cur.x + dirX[i], cur.y + dirY[i]);
+                    //System.out.println("p.x = " + p.x + " p.y = " + p.y);
+                    if (!inBound(grid, p)) {
+                        continue;
+                    }
+                    if (grid[p.x][p.y] != EMPTY) {
+                        continue;
+                    }
+                    if(set[p.x][p.y] == true) {
+                        continue;
+                    }
+                    q.offer(p);
+                    set[p.x][p.y] = true;
+                    distances[p.x][p.y] += step;
+                    visited[p.x][p.y] += 1;
+                }
+            }
+        }
+    }
+    
+    public int shortestDistance(int[][] grid) {
+        distances = new int[grid.length][grid[0].length];
+        visited = new int[grid.length][grid[0].length];
+        
+        // 1. find houses
+        List<Point> houses = getHouses(grid);
+        // 2. calculate each empty's distances sum
+        
+        for (Point house : houses) {
+            caculateDistance(house, grid);
+        }
+        // 3. find the minimum
+        int minDis = Integer.MAX_VALUE;
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
+                if (grid[i][j] != EMPTY) {
+                    continue;
+                }
+                if (visited[i][j] != houses.size()) {
+                    continue;
+                }
+                //System.out.println("test");
+                minDis = Math.min(minDis, distances[i][j]);
+            }
+        }
+        if (minDis == Integer.MAX_VALUE) {
+            minDis = -1;
+        }
+        return minDis;
+    }
+}
