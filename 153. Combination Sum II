@@ -1,0 +1,42 @@
+public class Solution {
+    /*
+     * @param num: Given the candidate numbers
+     * @param target: Given the target number
+     * @return: All the combinations that sum to target
+     */
+    public List<List<Integer>> combinationSum2(int[] nums, int target) {
+        List<Integer> comb = new ArrayList<Integer> ();
+        List<List<Integer>> results = new ArrayList<List<Integer>> ();
+        Arrays.sort(nums);
+        helper(nums, 0, target, 0, comb, results);
+        return results;
+    }
+    
+    private void helper(int[] nums, 
+                        int start,
+                        int target, 
+                        int curSum, 
+                        List<Integer> comb, 
+                        List<List<Integer>> results) {
+        if (curSum == target) {
+            results.add(new ArrayList<Integer> (comb));
+            return;
+        }
+        
+        if (start >= nums.length) {
+            return;
+        }
+        
+        for (int i = start; i < nums.length; i++) {
+            if (nums[i] > target - curSum) {
+                break;
+            }
+            if (i != start && nums[i] == nums[i - 1]) {
+                continue;
+            }
+            comb.add(nums[i]);
+            helper(nums, i + 1, target, curSum + nums[i], comb, results);
+            comb.remove(comb.size() - 1);
+        }
+    }
+}
