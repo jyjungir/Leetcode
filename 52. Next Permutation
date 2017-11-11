@@ -1,0 +1,39 @@
+public class Solution {
+    /*
+     * @param nums: A list of integers
+     * @return: A list of integers
+     */
+    public int[] nextPermutation(int[] nums) {
+        // fine the index which is descended
+        int i = nums.length - 1;
+        while (i > 0 && nums[i - 1] >= nums[i]) {
+            i -= 1;
+        }
+        i = i - 1;
+        if (i >= 0) {
+            int j = nums.length - 1;
+            while (j > 0 && nums[j] <= nums[i]) {
+                j -= 1;
+            }
+            swapNum(nums, i, j);
+        }
+        
+        reverseNums(nums, i + 1);
+        return nums;
+    }
+    
+    private void reverseNums(int[] nums, int index) {
+        int last = nums.length - 1;
+        while (index < last) {
+            swapNum(nums, index, last);
+            last --;
+            index ++;
+        }
+    }
+    
+    private void swapNum(int[] nums, int i, int j) {
+        int tmp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = tmp;
+    }
+}
