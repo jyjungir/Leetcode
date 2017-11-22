@@ -1,0 +1,44 @@
+/**
+ * Definition for ListNode
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
+
+
+public class Solution {
+    /*
+     * @param node: a list node in the list
+     * @param x: An integer
+     * @return: the inserted new list node
+     */
+    public ListNode insert(ListNode node, int x) {
+        if (node == null) {
+            ListNode xNode = new ListNode(x);
+            xNode.next = xNode;
+            return xNode;
+        }
+        
+        ListNode cur = node.next;
+        ListNode prev = node;
+        while (true) {
+            if (cur == node) {
+                break;
+            }
+            if (x <= cur.val && x >= prev.val) {
+                break;
+            }
+            prev = cur;
+            cur = cur.next;
+        }
+        ListNode xNode = new ListNode(x);
+        prev.next = xNode;
+        xNode.next = cur;
+        return xNode;
+    }
+}
