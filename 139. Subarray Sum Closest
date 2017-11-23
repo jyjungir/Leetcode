@@ -1,0 +1,50 @@
+public class Solution {
+    /*
+     * @param nums: A list of integers
+     * @return: A list of integers includes the index of the first number and the index of the last number
+     */
+    public class Pair {
+        private int preSum;
+        private int index;
+        public Pair(int sum, int idx) {
+            this.preSum = sum;
+            this.index = idx;
+        }
+    }
+    
+    public int[] subarraySumClosest(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return null;
+        }
+        if (nums.length == 1) {
+            return new int[] {0, 0};
+        }
+        List<Pair> preSums = new ArrayList<Pair> ();
+        int sum = 0;
+        Pair p = new Pair(0, -1);
+        preSums.add(p);
+        for (int i = 0; i < nums.length; i ++) {
+            sum += nums[i];
+            preSums.add(new Pair(sum, i));
+        }
+        
+        Collections.sort(preSums, new Comparator<Pair>() {
+           public int compare(Pair p1, Pair p2) {
+               return Integer.compare(p1.preSum, p2.preSum);
+           } 
+        });
+        int min = Integer.MAX_VALUE;
+        int[] res = new int[2];
+        for (int i = 1; i < preSums.size(); i++) {
+            int diff = (preSums.get(i).preSum - preSums.get(i - 1).preSum);
+            if (diff < min) {
+                min = diff;
+                res[0] = preSums.get(i).index;
+                res[1] = preSums.get(i - 1).index;
+            }
+        }
+        Arrays.sort(res);
+        res[0] += 1;
+        return res;
+    }
+}
