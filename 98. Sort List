@@ -1,0 +1,74 @@
+/**
+ * Definition for ListNode.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int val) {
+ *         this.val = val;
+ *         this.next = null;
+ *     }
+ * }
+ */
+
+
+public class Solution {
+    /*
+     * @param head: The head of linked list.
+     * @return: You should return the head of the sorted linked list, using constant space complexity.
+     */
+    //ListNode dummy = new ListNode(-1);
+    public ListNode sortList(ListNode head) {
+        if (head == null) {
+            return null;
+        }
+        return mergeSort(head);
+    }
+    private ListNode merge(ListNode head1, ListNode head2) {
+        ListNode dummy = new ListNode(-1);
+        ListNode tmp = dummy;
+        while (head1 != null && head2 != null) {
+            if (head1.val < head2.val) {
+                dummy.next = head1;
+                head1 = head1.next;
+            } else {
+                dummy.next = head2;
+                head2 = head2.next;
+            }
+            dummy = dummy.next;
+        }
+        if (head1 != null) {
+            dummy.next = head1;
+        }
+        if (head2 != null) {
+            dummy.next = head2;
+        }
+        return tmp.next;
+    }
+    
+    private ListNode mergeSort(ListNode start) {
+        if (start == null || start.next == null) {
+            return start;
+        }
+        // 5, 4, 3
+        ListNode mid = findMid(start);
+        
+        ListNode right = mergeSort(mid.next); //right list
+        mid.next = null;
+        ListNode left = mergeSort(start);
+        
+        return merge(left, right);
+    }
+    
+    // 5 -> 4 -> 3 -> null
+    private ListNode findMid(ListNode start) {
+        ListNode run = start.next;
+        ListNode walk = start;
+        
+        while (run != null && run.next != null) {
+            
+            run = run.next.next;
+            walk = walk.next;
+        }
+        return walk;
+    }
+}
