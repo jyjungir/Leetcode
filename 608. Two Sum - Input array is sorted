@@ -1,0 +1,39 @@
+public class Solution {
+    /*
+     * @param nums: an array of Integer
+     * @param target: target = nums[index1] + nums[index2]
+     * @return: [index1 + 1, index2 + 1] (index1 < index2)
+     */
+    public int[] twoSum(int[] nums, int target) {
+        if (nums == null || nums.length == 0) {
+            return new int[] {};
+        }
+        Map<Integer, List<Integer>> map = new HashMap<Integer, List<Integer>>();
+        
+        for (int i = 0; i < nums.length; i++) {
+            int n = nums[i];
+            int diff = target - n;
+            
+            if (map.containsKey(n)) {
+                List<Integer> idxs = map.get(n);
+                idxs.add(i);
+            } else {
+                List<Integer> indeces = new ArrayList<Integer> ();
+                indeces.add(i);
+                map.put(n, indeces);
+            } 
+            if (map.containsKey(diff)) {
+                List<Integer> list = map.get(diff);
+                if (list.size() == 1 && list.get(0) == i) {
+                    continue;
+                }
+                int[] res = new int[2];
+                res[0] = i + 1;
+                res[1] = map.get(diff).get(0) + 1;
+                Arrays.sort(res);
+                return res;
+            }
+        }
+        return new int[] {};
+    }
+}
