@@ -1,0 +1,26 @@
+public class Solution {
+    /*
+     * @param prices: Given an integer array
+     * @return: Maximum profit
+     */
+    public int maxProfit(int[] prices) {
+        // [3, 2, 5, 1, 4]
+        // [3, 2, 1]
+        int buyIdx = 0;
+        int maxProfit = 0;
+        if (prices == null || prices.length == 0) {
+            return 0;
+        }
+        for (int i = 1; i < prices.length; i++) {
+            if (prices[i] < prices[buyIdx]) {
+                buyIdx = i;
+            } else { // prices[i] >= prices[buyIdx]
+                int diff = prices[i] - prices[buyIdx];
+                if (diff > maxProfit) {
+                    maxProfit = diff;
+                }
+            }
+        }
+        return maxProfit;
+    }
+}
