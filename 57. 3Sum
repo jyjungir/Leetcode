@@ -1,0 +1,51 @@
+public class Solution {
+    /*
+     * @param numbers: Give an array numbers of n integer
+     * @return: Find all unique triplets in the array which gives the sum of zero.
+     */
+    public List<List<Integer>> threeSum(int[] numbers) {
+        if (numbers == null || numbers.length == 0) {
+            return new ArrayList<List<Integer>>();
+        }
+        // a + b + c = 0   , a < b < c 
+        // b + c = -a
+        List<List<Integer>> results = new ArrayList<List<Integer>>();
+        Arrays.sort(numbers);
+        for (int i = 0; i < numbers.length; i++) {
+            if (i > 0 && numbers[i] == numbers[i-1]) {
+                continue;
+            }
+            findMatch(i, numbers, results);    
+        }
+        
+        return results;
+    }
+    
+    private void findMatch(int i, int[] nums, List<List<Integer>> res) {
+        int target = -nums[i]; // -a
+        int left = i + 1;
+        int right = nums.length - 1; 
+        while (left < right) {
+            if (nums[left] + nums[right] == target) {
+                if (left > 0 && right < nums.length - 1 
+                    && nums[left] == nums[left - 1] 
+                    && nums[right] == nums[right + 1]) {
+                    left ++;
+                    right --;
+                    continue;
+                }
+                List<Integer> triple = new ArrayList<Integer>();
+                triple.add(nums[i]);
+                triple.add(nums[left]);
+                triple.add(nums[right]);
+                res.add(new ArrayList<Integer>(triple));
+                left ++;
+                right --;
+            } else if (nums[left] + nums[right] < target) {
+                left ++;
+            } else {
+                right --;
+            }
+        }
+    }
+}
