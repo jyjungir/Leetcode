@@ -1,0 +1,59 @@
+class Solution {
+    
+    private class Number {
+        private int idx;
+        private int val;
+        private int row;
+        
+        public Number(int i, int v, int r) {
+            this.idx = i;
+            this.val = v;
+            this.row = r;
+        }
+    }
+    
+    private class MyComparator implements Comparator<Number> {
+        @Override
+        public int compare(Number n1, Number n2) {
+            return n1.val - n2.val;
+        }
+    }
+    
+    public int[] smallestRange(List<List<Integer>> nums) {
+        if (nums == null || nums.size() == 0) {
+            return new int[] {};
+        }
+        
+        int[] res = new int[2];
+        int max = Integer.MIN_VALUE;
+        Queue<Number> pq = new PriorityQueue<Number>(nums.size(), new MyComparator());
+        int minDist = Integer.MAX_VALUE;
+        
+        for (int i = 0; i < nums.size(); i++) {
+            Number n = new Number(0, nums.get(i).get(0), i);
+            pq.offer(n);
+            max = Math.max(max, nums.get(i).get(0));
+        }
+        
+        while (pq.size() >= nums.size()) {
+            Number cur = pq.poll();
+            
+            if (max - cur.val < minDist) {
+                minDist = max - cur.val;
+                res[0] = cur.val;
+                res[1] = max;
+            }
+            
+            if (cur.idx < nums.get(cur.row).size() - 1) {
+                int idx = cur.idx + 1;
+                Number n = new Number(idx, nums.get(cur.row).get(idx), cur.row);
+                pq.offer(n);
+                if (n.val > max) {
+                    max = n.val;
+                }
+            }
+        }
+        
+        return res;
+    }
+}
